@@ -49,7 +49,8 @@ const tasks = {
     server: 'server',
     images: 'images',
     production: 'production',
-    clean: 'clean'
+    clean: 'clean',
+    init: 'init'
 };
 
 //####################################
@@ -65,7 +66,10 @@ const tasks = {
 // 'JavaScripts' instead of 'js'
 //####################################
 
-const theme_name = 'mytheme.com.br';
+const company = 'IWWA Agência Digital';
+const theme_label = 'My Theme';
+const theme_name = 'mytheme';
+
 const project_dist = `wp-content/themes/${theme_name}`;
 const project_src = 'app';
 const paths = {
@@ -245,6 +249,13 @@ gulp.task(tasks.sprites, () => {
         console.log(`${paths.styles.origin_root}/sprites.scss has been created`);
     })
 });
+
+gulp.task(tasks.init, (cb) => {
+    runsequence(tasks.html, (cb) => {
+        const default_css = `/*\nTheme Name: ${theme_label}\nAuthor: ${company}\n*/`;
+        fs.writeFile(`${project_dist}/style.css`, default_css, cb);
+    });
+})
 
 gulp.task(tasks.html_replace, () => {
     runsequence(tasks.html, () => {
