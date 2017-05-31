@@ -90,6 +90,7 @@ const paths = {
             ],
             // CSS files
             external: [
+                'node_modules/normalize.css/normalize.css'
             ]
         },
         origin_root: `${project_src}/styles`
