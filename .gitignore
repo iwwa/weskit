@@ -4,9 +4,7 @@ app/images/sprites/*
 app/styles/sprites.scss
 npm-debug.log
 
-wp-*.php
-xmlrc*.php
-xmlrpx.php
+/*.php
 wp-admin/
 wp-content/
 wp-include/
@@ -14,3 +12,4 @@ license.txt
 readme.html
 
 !app/images/sprites/.gitkeep
+!app/**/*.php
