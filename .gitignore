@@ -4,8 +4,8 @@ app/images/sprites/*
 app/styles/sprites.scss
 npm-debug.log
 
-!app/*.php
-*.php
+wp-*.php
+xmlrpx.php
 wp-admin/
 wp-content/
 wp-include/
