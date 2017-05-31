@@ -4,4 +4,12 @@ app/images/sprites/*
 app/styles/sprites.scss
 npm-debug.log
 
+*.php
+wp-admin/
+wp-content/
+wp-include/
+license.txt
+readme.html
+
 !app/images/sprites/.gitkeep
+!app/*.php
