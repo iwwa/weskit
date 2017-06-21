@@ -2,6 +2,9 @@
 
 // Definindo a constante da Url do tema
 define("THEME_URL", get_template_directory_uri().'/');
+function theme_url() {
+	echo THEME_URL;
+}
 
 
 // Aqua Resizer
@@ -20,20 +23,25 @@ add_action( 'after_setup_theme', 'register_my_menu' );
 
 
 // Criando os cortes das imagens
-add_image_size( 'slide_home', 1600, 600, true );
+//add_image_size( 'slide_home', 1600, 600, true );
 
 
 // Incluindo Css e Js
 function enqueue_scripts() {
-	wp_enqueue_style( 'style', THEME_URL . 'css/style.css' );
-	wp_enqueue_script( 'script', THEME_URL . 'js/script.js', array('jquery'), '1.0.0', true );
+	// Desabilita o JQuery padrao do Wordpress
+	wp_deregister_script('jquery');
+	// Desabilita embed.js do Wordpress
+	wp_deregister_script('wp-embed');
+
+	// wp_enqueue_style( 'style', THEME_URL . 'css/style.css', array(), '0.0.1' );
+	// wp_enqueue_script( 'script', THEME_URL . 'js/script.js', array(), '0.0.1', true );
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_scripts' );
 
 
 // Habilitando Css Login
 function login_css() {
-	wp_enqueue_style('login_css', THEME_URL . 'login.css' );
+	wp_enqueue_style('login_css', THEME_URL . 'css/login.css' );
 }
 add_action('login_head', 'login_css');
 

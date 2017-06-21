@@ -1,8 +1,8 @@
 'use strict';
 
-//####################################
+// ####################################
 // Lists of Gulp Plugins
-//####################################
+// ####################################
 
 const gulp = require('gulp');
 const sass = require('gulp-sass');
@@ -26,45 +26,53 @@ const yargs = require('yargs').argv;
 const gulpif = require('gulp-if');
 const sprity = require('sprity');
 
-//####################################
+// ####################################
 // List of Gulp tasks
-// 
+//
 // You can edit tasks names. For
-// example: by default there's a css 
+// example: by default there's a css
 // task, but you can exchange the name
 // as you want. You could call it as
 // styles, and you use it like:
 //
-//      gulp styles
-//####################################
+// gulp styles
+// ####################################
 
 const tasks = {
     sprites: 'sprites',
     css: 'css',
-    js_concat: 'js',
-    js_uglify: 'compress',
-    html: 'views',
-    html_replace: 'htmlreplace',
+
+    js: 'js',
+    concat_js: 'concat_js',
+    uglify: 'uglify',
+
+    html: 'html',
+    html_min: 'html_min',
+    html_replace: 'html_replace',
+
+    images: 'images',
+
     watch: 'watch',
     server: 'server',
-    images: 'images',
-    production: 'production',
     clean: 'clean',
+
+    default: 'default',
+    production: 'production',
     init: 'init'
 };
 
-//####################################
+// ####################################
 // List of Gulp paths
-// 
+//
 // You can rename the project folders
 // as you want. For example, you could
 // call the production folder as 'build'.
 //
 // You can also exchange the working
 // project folders. For example, you
-// can call your js folders as 
+// can call your js folders as
 // 'JavaScripts' instead of 'js'
-//####################################
+// ####################################
 
 const company = 'IWWA Agência Digital';
 const theme_label = 'My Theme';
@@ -72,45 +80,57 @@ const theme_name = 'mytheme';
 
 const project_dist = `wp-content/themes/${theme_name}`;
 const project_src = 'app';
+
+const js_folder_name = 'js';
+const css_folder_name = 'css';
+const img_folder_name = 'img';
+
 const paths = {
     // JavaScripts
     scripts: {
-        dest: `${project_dist}/js`,
+        dest: `${project_dist}/${js_folder_name}`,
+        root: `${project_src}/${js_folder_name}`,
         origin: {
-            internal_root: `${project_src}/scripts`,
             internal: [
-                `${project_src}/scripts/script.js`
+                `${project_src}/${js_folder_name}/script.js`,
+                `${project_src}/${js_folder_name}/example.js`
             ],
             external: [
+                'bower_components/jquery/dist/jquery.min.js',
+                'bower_components/swiper/dist/js/swiper.min.js'
             ]
         }
     },
+
     // Styles (SASS/CSS)
     styles: {
-        dest: `${project_dist}/css`,
+        root: `${project_src}/${css_folder_name}`,
+        dest: `${project_dist}/${css_folder_name}`,
         origin: {
             // SASS files
             internal: [
-                `${project_src}/styles/style.{scss,sass}`
+                `${project_src}/${css_folder_name}/style.{scss,sass}`,
             ],
             // CSS files
             external: [
-                'node_modules/normalize.css/normalize.css'
+                'bower_components/swiper/dist/css/swiper.min.css'
             ]
-        },
-        origin_root: `${project_src}/styles`
+        }
     },
+
     // Views
     views: {
+        origin: `${project_src}/**/*.{html,php}`,
         dest: project_dist,
-        origin: `${project_src}/**/*.{html,php}`
     },
+
     // Images to be minified
     images: {
-        dest: `${project_dist}/images`,
-        origin: `${project_src}/images/**/*`,
-        sprites_origins: `${project_src}/images/sprites/**/*`,
+        origin: `${project_src}/${img_folder_name}`,
+        sprites_origins: `${project_src}/${img_folder_name}/sprites/**/*`,
+        dest: `${project_dist}/${img_folder_name}`,
     },
+
     // Folders and files to be cleaned after development
     to_be_cleanded: [
         project_dist,
@@ -119,19 +139,19 @@ const paths = {
 }
 
 
-//####################################
+// ####################################
 // List of Gulp tasks
-// 
+//
 // There's some gulp tasks to work
 // with code concatenation, uglification,
 // replaces and a lot of other possibilities
-//####################################
+// ####################################
 
 gulp.task(tasks.css, () => {
     const cssStream = gulp.src(paths.styles.origin.external);
     const sassStream = gulp.src(paths.styles.origin.internal)
         .pipe(sass({
-            outputStyle: 'compressed'
+            // outputStyle: 'compressed'
         }))
         .on('error', sass.logError);
 
@@ -141,44 +161,48 @@ gulp.task(tasks.css, () => {
         .pipe(autoprefixer())
         .pipe(cssmin())
         .pipe(sourcemaps.write('.'))
-        .pipe(bsync.stream({match: '**/*.css'}))
+        .pipe(bsync.stream({
+            match: '**/*.css'
+        }))
         .pipe(gulp.dest(paths.styles.dest))
         .on('end', () => console.log(`SASS files has been concatenated and minifed`));
 });
 
-gulp.task(tasks.js_concat, () => {
-    return gulp.src(paths.scripts.origin.external.concat(paths.scripts.origin.internal))
+
+gulp.task(tasks.concat_js, () => {
+    return gulp.src(paths.scripts.origin.external.concat(`${paths.scripts.dest}/script.js`))
         .pipe(sourcemaps.init())
         .pipe(concat('script.js'))
-        .pipe(babel({
-            presets: ['es2015']
-        }))
         .pipe(sourcemaps.write('.'))
-        .pipe(bsync.stream({match: '**/*.js'}))
+        .pipe(bsync.stream({
+            match: '**/*.js'
+        }))
         .pipe(gulp.dest(paths.scripts.dest))
         .on('end', () => console.log(`Listed origin and external JavaScript files has been concatenated`));
 });
 
-gulp.task(tasks.js_uglify, cb => {
-    runsequence(tasks.js_concat, () => {
-        const options = {
-            preserveComments: 'license',
-            compress: {
-                drop_console: true
-            }
-        };
-        
-        pump([
-            gulp.src(paths.scripts.dest + '/script.js'),
+
+gulp.task(tasks.uglify, cb => {
+    const options = {
+        preserveComments: 'license',
+        compress: {
+            drop_console: true
+        }
+    };
+    pump([
+            gulp.src(paths.scripts.origin.internal),
+            babel({
+                presets: ['es2015']
+            }),
+            concat('script.js'),
             uglify(options),
-            rename('script.min.js'),
             gulp.dest(paths.scripts.dest)
         ], cb)
         .on('end', () => console.log(`${paths.scripts.dest}/script.js has been minified`));
-    });
 });
 
-gulp.task(tasks.html, () => {
+
+gulp.task(tasks.html_min, () => {
     return gulp.src(paths.views.origin)
         .pipe(htmlmin({
             collapseWhitespace: true,
@@ -189,16 +213,61 @@ gulp.task(tasks.html, () => {
                 /endbuild/,
             ]
         }))
-        .pipe(bsync.stream({match: '**/*.{html,php}'}))
+        .pipe(bsync.stream({
+            match: '**/*.{html,php}'
+        }))
         .pipe(gulp.dest(paths.views.dest))
         .on('end', () => console.log(`${paths.views.origin} has been minified`));
 });
 
+
+gulp.task(tasks.html_replace, () => {
+    let css = `${paths.styles.dest}/style.css`;
+    let js = `${paths.scripts.dest}/script.js`;
+
+    // Use gulp html_replace --xcss
+    if (yargs.xcss) {
+        // Take the content of CSS file and rip off all the "../"
+        // references to refer from the index.html
+        css = fs.readFileSync(`${css}`, 'utf8').split('../').join('');
+        css = `<style>${css}</style>`;
+        console.log('Exchanged the CSS reference for the stylesheet content');
+    }
+
+    // Use gulp html_replace --xjs
+    //
+    // You can use like: gulp htmlreplace --xjs --xcss
+    // to apply css and javascript replacement
+    if (yargs.xjs) {
+        //Take the content of JavaScript concatenated file and put it direct on body of index.html
+        js = fs.readFileSync(`${js}`, 'utf8');
+        js = `<script>${js}</script>`;
+        console.log('Exchanged the JS reference for the script content');
+    }
+
+    // It takes all html/php files and apply the html
+    // replacement. It's important to say that all the
+    // files will have the same reference/content for
+    // CSS or JavaScript.
+    gulp.src(`${project_dist}/**/*.{html,php}`)
+        .pipe(htmlreplace({
+            'js': js,
+            'css': css
+        }))
+        .pipe(gulp.dest(`${project_dist}/`))
+        .on('end', () => {
+            console.log('HTML replacement is done');
+        });
+});
+
+
 gulp.task(tasks.watch, () => {
-    gulp.watch(paths.scripts.origin.internal_root + '/**/*.js', [tasks.js_concat]);
-    gulp.watch(paths.styles.origin_root + '/**/*.{sass,scss}', [tasks.css]);
+    gulp.watch(paths.images.origin + '/**/*.{png,jpg,jpeg,gif}', [tasks.images]);
+    gulp.watch(paths.scripts.root + '/**/*.js', [tasks.js]);
+    gulp.watch(paths.styles.root + '/**/*.{sass,scss}', [tasks.css]);
     gulp.watch(paths.views.origin, [tasks.html]);
 });
+
 
 gulp.task(tasks.server, () => {
     bsync.init({
@@ -207,13 +276,14 @@ gulp.task(tasks.server, () => {
         }
     });
 
-    gulp.watch(paths.scripts.origin.internal_root + '/**/*.js', [tasks.js_concat]).on('change', bsync.reload);
+    gulp.watch(paths.scripts.origin.internal_root + '/**/*.js', [tasks.js]).on('change', bsync.reload);
     gulp.watch(paths.styles.origin_root + '/**/*.scss', [tasks.css]).on('change', bsync.reload);
     gulp.watch(paths.views.origin, [tasks.html]).on('change', bsync.reload);
 });
 
+
 gulp.task(tasks.images, () => {
-    return gulp.src(paths.images.origin)
+    return gulp.src(paths.images.origin + '/**/*')
         .pipe(imagemin([
             imagemin.gifsicle({
                 interlaced: true,
@@ -226,14 +296,15 @@ gulp.task(tasks.images, () => {
                 optimizationLevel: 5 // Minimum 0 and Maximum 7
             }),
             imagemin.svgo({
-                plugins: [
-                    {removeViewBox: true}
-                ]
+                plugins: [{
+                    removeViewBox: true
+                }]
             })
         ]))
         .pipe(gulp.dest(paths.images.dest))
         .on('end', () => console.log(`${paths.images.dest} has now optimizated images from ${paths.images.origin}`));
 });
+
 
 gulp.task(tasks.sprites, () => {
     return sprity.src({
@@ -250,67 +321,62 @@ gulp.task(tasks.sprites, () => {
     })
 });
 
-gulp.task(tasks.init, (cb) => {
-    runsequence(tasks.html, (cb) => {
-        const default_css = `/*\nTheme Name: ${theme_label}\nAuthor: ${company}\n*/`;
-        fs.writeFile(`${project_dist}/style.css`, default_css, cb);
-    });
-})
 
-gulp.task(tasks.html_replace, () => {
-    runsequence(tasks.html, () => {
-        let css = `${paths.styles.dest}/style.css`;
-        let js = `${paths.scripts.dest}/script.js`;
-
-        // Use gulp htmlreplace --xcss
-        if(yargs.xcss) {
-           // Take the content of CSS file and rip off all the "../" 
-           // references to refer from the index.html
-            css = fs.readFileSync(css, 'utf8').split('../').join('');
-            css = `<style>${css}</style>`;
-            console.log('Exchanged the CSS reference for the stylesheet content');
-        }
-
-        // Use gulp htmlreplace --xjs
-        //
-        // You can use like: gulp htmlreplace --xjs --xcss
-        // to apply css and javascript replacement
-        if(yargs.xjs) {
-            //Take the content of JavaScript concatenated file and put it direct on body of index.html
-            js = fs.readFileSync(js, 'utf8');
-            js = `<script>${js}</script>`;
-            console.log('Exchanged the JS reference for the script content');
-        }
-
-        // It takes all html/php files and apply the html
-        // replacement. It's important to say that all the
-        // files will have the same reference/content for
-        // CSS or JavaScript.
-        gulp.src(`${project_dist}/**/*.{html,php}`)
-            .pipe(htmlreplace({
-                'js': js,
-                'css': css
-            }))
-            .pipe(gulp.dest(`${project_dist}/`))
-            .on('end', () => {
-                console.log('HTML replacement is done');
-            });
-    });
+gulp.task(tasks.clean, () => {
+    return gulp.src(paths.to_be_cleanded)
+        .pipe(clean({
+            force: true
+        }));
 });
+
+
+// Custom tasks
+// ------------
+gulp.task('js', () => {
+    runsequence(
+        tasks.uglify,
+        tasks.concat_js,
+        () => console.log('The js task has finished.')
+    );
+});
+
+
+gulp.task('html', () => {
+    runsequence(
+        tasks.html_min,
+        tasks.html_replace,
+        () => console.log('The html task has finished.')
+    );
+});
+
+
+gulp.task(tasks.init, (cb) => {
+    runsequence(
+        tasks.default,
+        (cb) => {
+            const default_css = `/*\nTheme Name: ${theme_label}\nAuthor: ${company}\n*/`;
+            fs.writeFile(`${project_dist}/style.css`, default_css, cb);
+        });
+});
+
 
 gulp.task(tasks.production, () => {
     runsequence(
         tasks.images,
-        tasks.js_uglify, 
-        tasks.css, 
-        tasks.html_replace, 
-        () => {
-            console.log('The production task has finished.');
-        }
+        tasks.js,
+        tasks.css,
+        tasks.html,
+        () => console.log('The production task has finished.')
     );
 });
 
-gulp.task(tasks.clean, () => {
-    return gulp.src(paths.to_be_cleanded)
-        .pipe(clean({ force: true }));
+
+gulp.task(tasks.default, () => {
+    runsequence(
+        tasks.html,
+        tasks.css,
+        tasks.js,
+        tasks.images,
+        tasks.watch
+    );
 });

@@ -1,0 +1,27 @@
+# Iniciando o projeto
+
+## Entrar na pasta Sites do servidor
+git clone git@github.com:iwwa/weskit.git nome_da_pasta_do_projeto
+cd nome_da_pasta_do_projeto
+cp -rv ../WordPress/. ./
+
+//
+
+## Iniciando o desenvolvimento app
+npm i
+bower i
+gulp init
+
+//
+
+# Outros comandos
+
+## Continuando o desenvolvimento do app
+gulp
+
+## Gerando versão de produção
+### Para subir versão quando fizer alguma alteração no app ou queira gerar versão com styles e scripts internos
+#### Gerar html com style e script externo
+gulp production
+#### Gerar html com style e script interno (os argumentos podem ser passados individualmente)
+gulp production --xjs --xcss

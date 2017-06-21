@@ -40,12 +40,10 @@
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-optipng": "^5.2.1",
     "imagemin-svgo": "^5.2.1",
-    "normalize.css": "^7.0.0",
     "pump": "^1.0.2",
     "run-sequence": "^1.2.2",
     "sprity": "^1.0.8",
     "sprity-sass": "^1.0.4",
     "yargs": "^8.0.1"
-  },
-  "dependencies": {}
+  }
 }

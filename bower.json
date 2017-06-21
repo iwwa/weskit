@@ -1,0 +1,21 @@
+{
+  "name": "weskit_wordpress",
+  "homepage": "https://github.com/iwwa/weskit",
+  "authors": [
+    "IWWA"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.12.4",
+    "swiper": "^3.4.2"
+  }
+}

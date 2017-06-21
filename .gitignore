@@ -1,15 +1,16 @@
 node_modules/
-www/
-app/images/sprites/*
-app/styles/sprites.scss
 npm-debug.log
 
-/*.php
-wp-admin/
-wp-content/
-wp-include/
+bower_components/
+
+web.config
 license.txt
 readme.html
+wp-content/
+wp-includes/
+wp-admin/
+*.php
 
-!app/images/sprites/.gitkeep
-!app/**/*.php
+!app/*.php
+
+**/.DS_Store

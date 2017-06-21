@@ -1,11 +1,11 @@
     <!-- build:js-->
         <!--
             All JavaScripts should be set inside these comments.
-            That's because they'll be replaced for the concatenated/mified file when 
-            you call the gulp production task. 
+            That's because they'll be replaced for the concatenated/mified file when
+            you call the gulp production task.
         -->
-    
-    <script src="js/script.js"></script>
+
+    <script src="<?php theme_url(); ?>js/script.js"></script>
     <!-- endbuild -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->

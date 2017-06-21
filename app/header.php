@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="msapplication-tap-highlight" content="no">
-    
+
     <!-- Browser`s header background color -->
     <meta name="theme-color" content="#000000">
     <meta name="msapplication-navbutton-color" content="#000000">
-    
+
     <!-- Add to homescreen for Chrome on Android
     <meta name="mobile-web-app-capable" content="no">
     <meta name="application-name" content="Weskit">
@@ -36,13 +36,15 @@
     <title>WESKIT</title>
 
     <!-- build:css -->
-        <!-- 
+        <!--
             This CSS reference will be replaced by the content of the file
             to reduce the file request number.
         -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="<?php theme_url(); ?>css/style.css">
     <!-- endbuild -->
 
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+
+    <h1>WESKIT</h1>
