@@ -3,7 +3,7 @@
 ## Entrar na pasta Sites do servidor
 git clone git@github.com:iwwa/weskit.git nome_da_pasta_do_projeto
 cd nome_da_pasta_do_projeto
-cp -rv ../WordPress/. ./
+cp -rv ../WordPress/* ./
 
 //
 
