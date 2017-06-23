@@ -32,18 +32,15 @@ function enqueue_scripts() {
 	wp_deregister_script('jquery');
 	// Desabilita embed.js do Wordpress
 	wp_deregister_script('wp-embed');
-
-	// wp_enqueue_style( 'style', THEME_URL . 'css/style.css', array(), '0.0.1' );
-	// wp_enqueue_script( 'script', THEME_URL . 'js/script.js', array(), '0.0.1', true );
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_scripts' );
 
 
 // Habilitando Css Login
-function login_css() {
-	wp_enqueue_style('login_css', THEME_URL . 'css/login.css' );
+function enqueue_login_style() {
+	wp_enqueue_style('login-css', THEME_URL . 'css/login.css' );
 }
-add_action('login_head', 'login_css');
+add_action('login_head', 'enqueue_login_style');
 
 
 // Habilitando ACF options
