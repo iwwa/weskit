@@ -14,3 +14,4 @@ wp-admin/
 !app/*.php
 
 **/.DS_Store
+**/.gitkeep

@@ -262,6 +262,7 @@ gulp.task(tasks.watch, () => {
   gulp.watch(paths.scripts.root + '/**/*.js', [tasks.js]);
   gulp.watch(paths.styles.root + '/**/*.{sass,scss}', [tasks.css]);
   gulp.watch(paths.views.origin, [tasks.html]);
+  gulp.watch(`${project_src}/fonts/**/*`, ['copy']);
 });
 
 
@@ -326,38 +327,41 @@ gulp.task(tasks.clean, () => {
 });
 
 
+// Copy all files at the root level (app)
+gulp.task('copy', () =>
+  gulp.src([
+    `${project_src}/fonts/**/*`
+  ], {
+    dot: true,
+    base: `${project_src}` // Support Recursive
+  })
+  .pipe(gulp.dest(project_dist))
+);
+
+
 // Custom tasks
 // ------------
-gulp.task('js', () => {
+gulp.task(tasks.js, () => {
   runsequence(
     tasks.uglify,
-    tasks.concat_js,
-    () => console.log('The js task has finished.')
+    tasks.concat_js
   );
 });
 
 
-gulp.task('html', () => {
+gulp.task(tasks.html, () => {
   runsequence(
     tasks.html_min,
-    tasks.html_replace,
-    () => console.log('The html task has finished.')
+    tasks.html_replace
   );
 });
 
 
-gulp.task(tasks.init, (cb) => {
-  runsequence(
-    tasks.watch,
-    tasks.css,
-    tasks.js,
-    tasks.html,
-    tasks.images,
-    (cb) => {
-      const default_css = `/*\nTheme Name: ${theme_label}\nAuthor: ${company}\n*/`;
-      fs.writeFile(`${project_dist}/style.css`, default_css, cb);
-    }
-  );
+gulp.task(tasks.init, [tasks.default], cb => {
+  cb => {
+    const default_css = `/*\nTheme Name: ${theme_label}\nAuthor: ${company}\n*/`;
+    fs.writeFile(`${project_dist}/style.css`, default_css, cb);
+  }
 });
 
 
@@ -367,6 +371,7 @@ gulp.task(tasks.production, () => {
     tasks.js,
     tasks.html,
     tasks.images,
+    'copy',
     () => console.log('The production task has finished.')
   );
 });
@@ -378,6 +383,7 @@ gulp.task(tasks.default, () => {
     tasks.css,
     tasks.js,
     tasks.html,
-    tasks.images
+    tasks.images,
+    'copy'
   );
 });
