@@ -348,20 +348,25 @@ gulp.task('html', () => {
 
 gulp.task(tasks.init, (cb) => {
   runsequence(
-    tasks.default,
+    tasks.watch,
+    tasks.css,
+    tasks.js,
+    tasks.html,
+    tasks.images,
     (cb) => {
       const default_css = `/*\nTheme Name: ${theme_label}\nAuthor: ${company}\n*/`;
       fs.writeFile(`${project_dist}/style.css`, default_css, cb);
-    });
+    }
+  );
 });
 
 
 gulp.task(tasks.production, () => {
   runsequence(
-    tasks.images,
-    tasks.js,
     tasks.css,
+    tasks.js,
     tasks.html,
+    tasks.images,
     () => console.log('The production task has finished.')
   );
 });
@@ -369,10 +374,10 @@ gulp.task(tasks.production, () => {
 
 gulp.task(tasks.default, () => {
   runsequence(
-    tasks.html,
+    tasks.watch,
     tasks.css,
     tasks.js,
-    tasks.images,
-    tasks.watch
+    tasks.html,
+    tasks.images
   );
 });
