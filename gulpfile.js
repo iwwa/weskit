@@ -360,7 +360,7 @@ gulp.task(tasks.html, () => {
 gulp.task(tasks.init, [tasks.default], cb => {
   cb => {
     const default_css = `/*\nTheme Name: ${theme_label}\nAuthor: ${company}\n*/`;
-    fs.writeFile(`${project_dist}/style.css`, default_css, cb);
+    fs.writeFile(`${paths.styles.dest}/style.css`, default_css, cb);
   }
 });
 
