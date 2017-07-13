@@ -258,7 +258,7 @@ gulp.task(tasks.html_replace, () => {
 
 
 gulp.task(tasks.watch, () => {
-  gulp.watch(paths.images.origin + '/**/*.{png,jpg,jpeg,gif}', [tasks.images]);
+  gulp.watch(paths.images.origin + '/**/*.{png,jpg,jpeg,gif,svg}', [tasks.images]);
   gulp.watch(paths.scripts.root + '/**/*.js', [tasks.js]);
   gulp.watch(paths.styles.root + '/**/*.{sass,scss}', [tasks.css]);
   gulp.watch(paths.views.origin, [tasks.html]);
@@ -280,7 +280,7 @@ gulp.task(tasks.server, () => {
 
 
 gulp.task(tasks.images, () => {
-  return gulp.src(paths.images.origin + '/**/*')
+  return gulp.src(paths.images.origin + '/**/*.{png,jpg,jpeg,gif,svg}')
     .pipe(imagemin([
       imagemin.gifsicle({
         interlaced: true,
