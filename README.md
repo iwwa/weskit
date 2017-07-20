@@ -66,7 +66,7 @@ $ gulp
 $ gulp production
 ```
 
-**Gerar html com style e script interno (os argumentos podem ser passados individualmente)**
+**Gerar html com style e script interno**
 
 ```
 $ gulp production --xjs --xcss
