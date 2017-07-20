@@ -14,24 +14,72 @@ Weskit is an template for use to start the development of web projects.
 npm i -g gulp
 ```
 
-## Configuring
+# Weskit - Commands
 
-First of all, clone the repository with:
-
-```
-git clone https://github.com/HDeiro/weskit.git
-```
-
-After you clone the repository, you should install the dependencies.
+## Instalando o Weskit
+Entrar na pasta Sites do servidor e abrir o terminal.
 
 ```
-npm i
+$ cd pasta_do_projeto
 ```
 
-## Basic Usage
+```
+$ git clone git@github.com:iwwa/weskit.git
+```
 
-You can read the tasks in the ```gulpfile.js```. But, the major ones are:
+```
+$ cp -rv weskit/* ./
+```
 
-1. ```gulp watch```: starts to watching alterations at the sources (HTML, PHP, SASS/SCSS, JS) and applies other task like `scripts` for JS modifications;
+```
+$ rm -rf weskit
+```
 
-2. ```gulp serve```: starts a local webserver with browser sync. You can access BS Dashboard throught ```localhost:3001```, and there you have access to a bunch of configurations that you can use.
+## Configurando o gulpfile.js
+
+Alterar variáveis para o nome do tema.
+
+```
+const theme_label = 'My Theme';
+const theme_name = 'mytheme';
+```
+
+## Iniciando o desenvolvimento do app
+
+```
+$ npm i
+```
+
+```
+$ bower i
+```
+
+```
+$ gulp init
+```
+
+## Continuando o desenvolvimento do app
+
+```
+$ gulp
+```
+
+## Gerando versão de produção
+
+**Gerar html com style e script externo**
+
+```
+$ gulp production
+```
+
+**Gerar html com style e script interno (os argumentos podem ser passados individualmente)**
+
+```
+$ gulp production --xjs --xcss
+```
+
+## Comandos adicionais
+
+```
+$ bower install swiper --save
+```
