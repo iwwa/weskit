@@ -1,31 +1,24 @@
-# Iniciando o projeto
+# Weskit - commands
 
-## Criar o banco de dados com o nome do tema (tudo minúsculo e separado por underline)
-
-## Entrar na pasta Sites do servidor e abrir o terminal
-git clone git@github.com:iwwa/weskit.git nome_da_pasta_do_projeto.com.br
-cd nome_da_pasta_do_projeto.com.br
-cp -rv ../WordPress/* ./
-
-//
+## Instalando o Weskit
+### Entrar na pasta Sites do servidor e abrir o terminal
+1. `$ cd pasta_do_projeto`
+2. `$ git clone git@github.com:iwwa/weskit.git`
+3. `$ cp -rv weskit/* ./`
+4. `$ rm -rf weskit`
 
 ## Configurando o gulpfile.js
 ### Alterando variáveis para o nome do tema em questão
 const theme_label = 'My Theme';
 const theme_name = 'mytheme';
 
-//
-
 ## Iniciando o desenvolvimento do app
 npm i
 bower i
 gulp init
 
-//
-
-# Outros comandos
-
-## Continuando o desenvolvimento do app
+## Outros comandos
+### Continuando o desenvolvimento do app
 gulp
 
 ## Gerando versão de produção
