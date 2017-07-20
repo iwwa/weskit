@@ -15,15 +15,15 @@ require_once('aq_resizer.php');
 add_theme_support('post-thumbnails');
 
 
+// Criando os cortes das imagens
+// add_image_size( 'slide_home', 1600, 600, true );
+
+
 // Criando o menu
 function register_my_menu() {
 	register_nav_menu( 'primary', __( 'Primary Menu', 'theme-slug' ) );
 }
 add_action( 'after_setup_theme', 'register_my_menu' );
-
-
-// Criando os cortes das imagens
-//add_image_size( 'slide_home', 1600, 600, true );
 
 
 // Incluindo Css e Js
