@@ -14,14 +14,8 @@ Weskit is an template for use to start the development of web projects.
 npm i -g gulp
 ```
 
-# Weskit - Commands
-
 ## Instalando o Weskit
-Entrar na pasta Sites do servidor e abrir o terminal.
-
-```
-$ cd pasta_do_projeto
-```
+Entrar na pasta do projeto e abrir o terminal.
 
 ```
 $ git clone git@github.com:iwwa/weskit.git
