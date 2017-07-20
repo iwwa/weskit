@@ -18,7 +18,7 @@ npm i -g gulp
 Entrar na pasta do projeto e abrir o terminal.
 
 ```
-$ git clone git@github.com:iwwa/weskit.git
+$ git clone https://github.com/iwwa/weskit.git
 ```
 
 ```
