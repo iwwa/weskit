@@ -1,46 +1,44 @@
 # Weskit - Commands
 
 ## Instalando o Weskit
-Entrar na pasta Sites do servidor e abrir o terminal.
+Entrar na pasta do projeto e abrir o terminal.
 
-```$ cd pasta_do_projeto```
+`$ git clone git@github.com:iwwa/weskit.git`
 
-```$ git clone git@github.com:iwwa/weskit.git```
+`$ cp -rv weskit/* ./`
 
-```$ cp -rv weskit/* ./```
-
-```$ rm -rf weskit```
+`$ rm -rf weskit`
 
 ## Configurando o gulpfile.js
 
 Alterar variáveis para o nome do tema.
 
-```const theme_label = 'My Theme';```
+`const theme_label = 'My Theme';`
 
-```const theme_name = 'mytheme';```
+`const theme_name = 'mytheme';`
 
 ## Iniciando o desenvolvimento do app
 
-```$ npm i```
+`$ npm i`
 
-```$ bower i```
+`$ bower i`
 
-```$ gulp init```
+`$ gulp init`
 
 ## Continuando o desenvolvimento do app
 
-```$ gulp```
+`$ gulp`
 
 ## Gerando versão de produção
 
 **Gerar html com style e script externo**
 
-```$ gulp production```
+`$ gulp production`
 
 **Gerar html com style e script interno (os argumentos podem ser passados individualmente)**
 
-```$ gulp production --xjs --xcss```
+`$ gulp production --xjs --xcss`
 
 ## Comandos adicionais
 
-```$ bower install swiper --save```
+`$ bower install swiper --save`
