@@ -1,9 +1,18 @@
 <?php
 
-// Definindo a constante da Url do tema
-define("THEME_URL", get_template_directory_uri().'/');
+// Definindo a constante do nome do site
+define("SITE_NAME", get_bloginfo('name'));
+
+// Definindo a constante da url do tema
+define("THEME_URL", get_template_directory_uri() . '/');
 function theme_url() {
 	echo THEME_URL;
+}
+
+// Definindo a constante do diretorio do tema
+define("THEME_DIR", get_template_directory() . '/');
+function theme_dir() {
+	echo THEME_DIR;
 }
 
 
@@ -64,7 +73,7 @@ function add_slug_body_class( $classes ) {
 		global $post;
 		$classes[] = $post->post_type . '-' . $post->post_name;
 
-		if( $post->post_parent ) {
+		if ( $post->post_parent ) {
 			$parent = get_post( $post->post_parent );
 			$classes[] = $parent->post_type . '-' . $parent->post_name;
 		}
@@ -89,7 +98,7 @@ function add_image_insert_override($sizes) {
 	return $sizes;
 }
 $corte = '';
-if(isset($_POST['editedSize'])) {
+if (isset($_POST['editedSize'])) {
 	$corte = $_POST['editedSize'];
 }
 add_filter('intermediate_image_sizes_advanced', 'add_image_insert_override' );
