@@ -297,7 +297,7 @@ gulp.task(tasks.images, () => {
       }),
       imagemin.svgo({
         plugins: [{
-          removeViewBox: true
+          removeViewBox: false
         }]
       })
     ]))
