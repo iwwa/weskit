@@ -16,8 +16,8 @@ function theme_dir() {
 }
 
 
-// Aqua Resizer
-require_once('aq_resizer.php');
+// Desabilitando a barra adminstrativa
+show_admin_bar( false );
 
 
 // Habilitando suporte a thumbnails
@@ -25,7 +25,7 @@ add_theme_support('post-thumbnails');
 
 
 // Criando os cortes das imagens
-// add_image_size( 'slide_home', 1600, 600, true );
+// add_image_size( 'Slide Home', 1600, 600, true );
 
 
 // Criando o menu
@@ -50,6 +50,10 @@ function enqueue_login_style() {
 	wp_enqueue_style('login-css', THEME_URL . 'css/login.css' );
 }
 add_action('login_head', 'enqueue_login_style');
+
+
+// Aqua Resizer
+require_once('aq_resizer.php');
 
 
 // Habilitando ACF options
