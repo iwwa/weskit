@@ -265,7 +265,7 @@ gulp.task(tasks.watch, () => {
   gulp.watch(paths.images.origin + '/**/*.{png,jpg,jpeg,gif,svg}', [tasks.images]);
   gulp.watch(paths.scripts.root + '/**/*.js', [tasks.js]);
   gulp.watch(paths.styles.root + '/**/*.{sass,scss}', [tasks.css]);
-  gulp.watch(paths.views.origin, [tasks.html]);
+  gulp.watch(paths.views.origin, ['copy']);
   gulp.watch(`${project_src}/fonts/**/*`, ['copy']);
 });
 
