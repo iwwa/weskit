@@ -75,8 +75,8 @@ const tasks = {
 // ####################################
 
 const company = 'IWWA Agência Digital';
-const theme_label = 'My Theme';
-const theme_name = 'mytheme';
+const theme_label = '2 de Julho';
+const theme_name = '2dejulho';
 
 const project_dist = `wp-content/themes/${theme_name}`;
 const project_src = 'app';
@@ -129,8 +129,9 @@ const paths = {
 
   // Folders and files to be cleaned after development
   to_be_cleanded: [
-    project_dist,
-    'node_modules'
+    `${project_dist}/*`,
+    `!${project_dist}/style.css`
+    // 'node_modules'
   ]
 }
 
@@ -161,7 +162,7 @@ gulp.task(tasks.css, () => {
       match: '**/*.css'
     }))
     .pipe(gulp.dest(paths.styles.dest))
-    // .on('end', () => console.log(`SASS files has been concatenated and minifed`));
+  // .on('end', () => console.log(`SASS files has been concatenated and minifed`));
 });
 
 
@@ -174,7 +175,7 @@ gulp.task(tasks.concat_js, () => {
       match: '**/*.js'
     }))
     .pipe(gulp.dest(paths.scripts.dest))
-    // .on('end', () => console.log(`Listed origin and external JavaScript files has been concatenated`));
+  // .on('end', () => console.log(`Listed origin and external JavaScript files has been concatenated`));
 });
 
 
@@ -182,19 +183,19 @@ gulp.task(tasks.uglify, cb => {
   const options = {
     preserveComments: 'license',
     compress: {
-      drop_console: true
+      drop_console: false
     }
   };
   pump([
-      gulp.src(paths.scripts.origin.internal),
-      babel({
-        presets: ['es2015']
-      }),
-      concat('script.js'),
-      uglify(options),
-      gulp.dest(paths.scripts.dest)
-    ], cb)
-    // .on('end', () => console.log(`${paths.scripts.dest}/script.js has been minified`));
+    gulp.src(paths.scripts.origin.internal),
+    babel({
+      presets: ['es2015']
+    }),
+    concat('script.js'),
+    uglify(options),
+    gulp.dest(paths.scripts.dest)
+  ], cb)
+  // .on('end', () => console.log(`${paths.scripts.dest}/script.js has been minified`));
 });
 
 
@@ -335,7 +336,8 @@ gulp.task(tasks.clean, () => {
 // Copy all files at the root level (app)
 gulp.task('copy', () =>
   gulp.src([
-    `${project_src}/fonts/**/*`
+    `${project_src}/fonts/**/*`,
+    `${project_src}/**/*.php`
   ], {
     dot: true,
     base: `${project_src}` // Support Recursive
@@ -368,13 +370,17 @@ gulp.task(tasks.init, [tasks.default], () => {
 });
 
 
-gulp.task(tasks.production, [
-  tasks.css,
-  tasks.js,
-  tasks.html,
-  tasks.images,
-  'copy'
-]);
+gulp.task(tasks.production, [tasks.clean], cb =>
+  runsequence(
+    tasks.css,
+    [
+      tasks.js,
+      // tasks.html,
+      tasks.images,
+      'copy'],
+    cb
+  )
+);
 
 
 gulp.task(tasks.default, [
