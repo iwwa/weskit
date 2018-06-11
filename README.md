@@ -22,7 +22,7 @@ $ git clone https://github.com/iwwa/weskit.git
 ```
 
 ```
-$ cp -rv weskit/* ./
+$ cp -rT weskit/ ./
 ```
 
 ```
