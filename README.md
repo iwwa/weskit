@@ -38,7 +38,8 @@ const theme_label = 'My Theme';
 const theme_name = 'mytheme';
 ```
 
-Caso esteja logado como root no servidor, rodar o comando abaixo para ter permissão de editar o arquivo
+Caso esteja logado como root no servidor, rodar o comando abaixo para ter permissão de editar os arquivos.
+
 Rodar o comando dentro da pasta htdocs
 ```
 chown -R www-data:www-data ./
