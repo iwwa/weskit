@@ -377,7 +377,8 @@ gulp.task(tasks.production, [tasks.clean], cb =>
       tasks.js,
       // tasks.html,
       tasks.images,
-      'copy'],
+      'copy'
+    ],
     cb
   )
 );
